@@ -1,14 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { Produto } from '../produto/produto';
-
+import { computed } from '@angular/core';
+import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 @Component({
   selector: 'app-lista-produtos',
-  imports: [Produto],
+  imports: [Produto, PrecoFormatadoPipe],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
-  produto = signal([
+  produtos = signal([
     {nome:'Teclado Gamer', preco:149.00},
     {nome:'Mouse Gamer', preco:299.99},
     {nome:'Monitor Gamer',preco:1599.99},
@@ -19,8 +20,21 @@ export class ListaProdutos {
     console.log('Produto Selecionado: ',nome);
   }
  adicionarProduto(){
-   this.produto.update(listaAtual => [
-    ...listaAtual, {nome:'Sony PlayStation 5', preco: 10000.00}
+   this.produtos.update(listaAtual => [
+    ...listaAtual, 
+    {nome:'Sony PlayStation 5', preco: 10000.00}
+    
    ]);
  }  
+ totalProdutos = computed(() => this.produtos().length);
+
+ valorTotal  = computed(() =>{return this.produtos().reduce
+  ((total, item)=> total + item.preco,0)});
+
+  substituirProdutos(){
+    this.produtos.set([
+      {nome:'Arroz Fazenda', preco: 400},
+      
+    ]);
+}
 }
