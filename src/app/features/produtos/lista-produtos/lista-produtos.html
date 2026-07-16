@@ -1,4 +1,4 @@
-@for (item of produto (); track item){
+@for (item of produtos (); track item){
   <app-produto
   [nome]="item.nome"
   [preco]="item.preco"
@@ -7,3 +7,6 @@
   </app-produto>
 }
 <p><button (click)="adicionarProduto()">Adicionar Produto</button></p>
+<h2>Total de produtos:{{totalProdutos()}}</h2>
+<h3>Valor total:{{valorTotal()| precoFormatado}}</h3>
+<p><button (click)="substituirProdutos()">Substituir Produto</button></p>
