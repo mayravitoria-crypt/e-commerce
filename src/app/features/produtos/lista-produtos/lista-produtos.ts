@@ -3,19 +3,35 @@ import { Produto } from '../produto/produto';
 import { computed } from '@angular/core';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { effect } from '@angular/core';
+import { UpperCasePipe } from '@angular/common';
 @Component({
   selector: 'app-lista-produtos',
-  imports: [Produto, PrecoFormatadoPipe],
+  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
   produtos = signal([
-    {nome:'Teclado Gamer', preco:149.00},
-    {nome:'Mouse Gamer', preco:299.99},
-    {nome:'Monitor Gamer',preco:1599.99},
-    {nome:'Desktop Gamer',preco:4999.99},
-    {nome:'Headset Gamer',preco:699.99},
+    {
+      nome:'Teclado Gamer',
+       preco:149.00
+      },
+    {
+      nome:'Mouse Gamer', 
+      preco:299.99
+    },
+    {
+      nome:'Monitor Gamer',
+      preco:1599.99
+    },
+    {
+      nome:'Desktop Gamer',
+      preco:4999.99
+    },
+    {
+      nome:'Headset Gamer',
+      preco:699.99
+    },
   ]);
   exibirProduto (nome:string){
     //console.log('Produto Selecionado: ',nome);
@@ -24,7 +40,7 @@ export class ListaProdutos {
  adicionarProduto(){
    this.produtos.update(listaAtual => [
     ...listaAtual, 
-    {nome:'Sony PlayStation 5', preco: 10000.00}
+    {nome:'Processador Core i5 14', preco: 10000.00}        
     
    ]);
  }  
@@ -35,8 +51,13 @@ export class ListaProdutos {
 
   substituirProdutos(){
     this.produtos.set([
-      {nome:'Arroz Fazenda', preco: 400},
-      
+        {nome:'Teclado', preco: 40},
+             {nome:'Mouse', preco:10 },
+                 {nome:'Monitor', preco:100},
+                {nome:'Desktop', preco: 500},
+                      {nome:'Headset', preco: 300},
+
+    
     ]);
 }
 constructor(){
@@ -53,5 +74,20 @@ constructor(){
   });
 }
 produtoSelecionado = signal<string | null> (null);
+
+carrinho = signal<{nome: string; preco:number}[]>([]);
+
+adicionarAocarrinho(produto:{nome: string; preco: number}){
+  this.carrinho.update(listaAtual=>
+  [...listaAtual,produto]);
+
 }
+
+quantidadeCarrinho = computed (() => this.carrinho().length);
+totalCarrinho = computed (() =>{
+  return this.carrinho().reduce((total, item)=> total+item.preco,0)
+});
+}
+
+
 
